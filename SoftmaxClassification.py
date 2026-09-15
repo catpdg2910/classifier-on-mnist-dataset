@@ -18,18 +18,37 @@ def cross_entropy_loss(predict, actual):
     loss = np.sum(log_p)/m
     return loss
 
-class SoftmaxClassification:
+class SoftmaxClassifier:
     def __init__(self, learning_rate = 0.01, num_classes = 10, num_features = 784):
         self.learning_rate = learning_rate
-        self.weight = np.random.randn(num_features, num_classes)
-        self.bias = np.zeros(num_classes)
+        self.weight = np.random.randn(num_features, num_classes)*0.01
+        self.bias = np.zeros((1, num_classes))
         
-    def train(self, X, y, epoch = 10000):
+    def train(self, X, y):
         #tính tới
         logits = np.dot(X, self.weight) + self.bias
         prob = softmax(logits)
         
+        #tính hàm loss
+        loss = cross_entropy_loss(prob, y)
+        
         #backprobagation
+        m = X.shape[0]
+        grad_logits = prob.copy()
+        grad_logits[range(m), y] -= 1
+        grad_logits /= m
+        
+        #update weight + bias
+        self.weight -= self.learning_rate*np.dot(X.T, grad_logits)
+        self.bias -= self.learning_rate*np.sum(grad_logits, axis = 0, keepdims = True)
+        return loss
+        
+    def predict(self, X):
+        logits = np.dot(X, self.weight) + self.bias
+        prob = softmax(logits)
+        return np.argmax(prob, axis = 1)
+    
+    
         
         
         
