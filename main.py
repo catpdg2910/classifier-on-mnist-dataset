@@ -19,7 +19,7 @@ model = SoftmaxClassifier(0.01, 10, 784)
 # for X_batch, y_batch in get_numpy_batches(train_loader):
 #     model.train(X_batch, y_batch, True)
     
-for epoch in range(50):
+for epoch in range(30):
     epoch_loss = 0
     num_batches = 0
     for X_batch, y_batch in get_numpy_batches(train_loader):
