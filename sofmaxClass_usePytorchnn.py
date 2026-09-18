@@ -6,9 +6,9 @@ from torch.utils.data import DataLoader
 import torch.optim as optim
 
 train_data = datasets.MNIST(root = './MNIST DATASET', train = True, transform = tv.transforms.ToTensor(), download = True)
-test_data = datasets.MNIST(root = './MNIST DATASET', train = True, transform = tv.transforms.ToTensor(), download = True)
+test_data = datasets.MNIST(root = './MNIST DATASET', train = False, transform = tv.transforms.ToTensor(), download = True)
 
-train_loader = DataLoader(dataset = train_data, batch_size = 1024, shuffle = True)
+train_loader = DataLoader(dataset = train_data, batch_size = 32, shuffle = True)
 test_loader = DataLoader(dataset = test_data, batch_size = 10000, shuffle = False)
 
 # set up model + chọn hàm loss: CEL + chọn optimizer: SGD/ADAM
@@ -18,9 +18,9 @@ model = nn.Sequential(
 )
 
 loss_func = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr = 0.001)
+optimizer = optim.SGD(model.parameters(), lr = 0.01)
 
-epochs = 10
+epochs = 20
 for epoch in range(epochs):
     epoch_loss = 0
     num_batches = 0
