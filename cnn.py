@@ -30,7 +30,7 @@ model = nn.Sequential(
 optimizer = optim.Adam(params = model.parameters())
 loss_func = nn.CrossEntropyLoss()
 
-epochs = 20
+epochs = 12
 for epoch in range(epochs):
     epoch_loss = 0
     num_epoch = 0
